@@ -6,6 +6,15 @@ const HocComponent = (OrginalComponent) => {
     constructor(props) {
       super(props);
       this.state = {
+        columns: [
+          { key: "firstName", title: "Full Name" },
+          { key: "lastName"},
+          { key: "image"},
+          { key: "email", title: "Email" },
+          { key: "birthDate", title: "Birth Date" },
+          { key: "domain", title: "Domain" },
+          { key: "eyeColor", title: "Eye Color" },
+        ],
         data: [],
       };
     }
@@ -13,10 +22,8 @@ const HocComponent = (OrginalComponent) => {
     componentDidMount() {
       const fatchProduct = async () => {
         await axios
-          .get("https://dummyjson.com/products")
-          .then((responce) =>
-            this.setState({ data: responce.data["products"] })
-          )
+          .get("https://dummyjson.com/users")
+          .then((response) => this.setState({ data: response.data["users"] }))
           .catch((error) => console.log(error));
       };
       fatchProduct();
@@ -24,7 +31,9 @@ const HocComponent = (OrginalComponent) => {
 
     render() {
       console.log(this.state.data);
-      return <OrginalComponent productsData={this.state.data} />;
+      return (
+        <OrginalComponent data={this.state.data} columns={this.state.columns} />
+      );
     }
   };
 };
